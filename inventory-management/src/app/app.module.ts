@@ -8,6 +8,9 @@ import { HomeComponent } from './components/home/home.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { AppRoutingModule } from './app.routing.module';
+import { EmployeeService } from './services/employees/employees.service';
+import { HttpModule } from '@angular/http';
+import { InventoryService } from './services/inventory/inventory.service';
 
 
 @NgModule({
@@ -20,9 +23,10 @@ import { AppRoutingModule } from './app.routing.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpModule,
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [EmployeeService, InventoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

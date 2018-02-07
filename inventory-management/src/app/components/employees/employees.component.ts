@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeeModel } from '../../models/employees/employees.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EmployeeService } from '../../services/employees/employees.service';
+import { Observable, BehaviorSubject } from 'rxjs/';
 
 @Component({
     selector: 'app-employees-component',
@@ -9,55 +11,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class EmployeesComponent implements OnInit {
 
-    viewEmployeeIndex: any;
+    loading = false;
 
-    employees: EmployeeModel[] = [
-        {
-            id: 1,
-            firstName: 'Mindaugas',
-            inventory: [
-                {
-                    id: 1,
-                    name: 'Dell monitor',
-                },
-                {
-                    id: 2,
-                    name: 'Logitech mouse',
-                },
-                {
-                    id: 3,
-                    name: 'Dell computer',
-                },
-                {
-                    id: 7,
-                    name: 'Logitech keyboard',
-                },
-            ]
-        },
-        {
-            id: 1,
-            firstName: 'Kęstutis',
-            inventory: [
-                {
-                    id: 5,
-                    name: 'Asus monitor',
-                },
-                {
-                    id: 2,
-                    name: 'Logitech mouse',
-                },
-                {
-                    id: 3,
-                    name: 'Dell computer',
-                },
-            ]
-        },
-        {
-            id: 1,
-            firstName: 'Linas',
-            inventory: []
-        }
-    ];
+    employees$: Observable<EmployeeModel[]>;
+    employeeInventory$: Observable<any>;
 
     employeeHeaders: any[] = [
         { col: 'no', label: '#' },
@@ -65,13 +22,20 @@ export class EmployeesComponent implements OnInit {
         { col: 'inventorySize', label: 'Inventory Size' }
     ];
 
-    constructor(private modalService: NgbModal) { }
+    constructor(private modalService: NgbModal,
+        private employeeService: EmployeeService) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.loading = true;
 
-    open(modal, eployeeIndex) {
+        this.employeeService.getList().subscribe((data: EmployeeModel[]) => {
+            this.employees$ = Observable.of(data);
+            this.loading = false;
+        });
+    }
+
+    open(modal, employeeIndex) {
         this.modalService.open(modal);
-        this.viewEmployeeIndex = eployeeIndex;
-        console.log(this.viewEmployeeIndex);
+        this.employeeInventory$ = this.employees$.map(arr => arr[employeeIndex].inventory);
     }
 }
