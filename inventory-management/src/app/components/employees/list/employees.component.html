@@ -22,6 +22,8 @@
                 <th>
                     <button [disabled]="e.inventory.length === 0" class="btn btn-outline-primary" (click)="open(modal, ind)">
                         <i class="fa fa-search"></i> Check details</button>
+                    <button class="btn btn-outline-warning" (click)="edit(e.id)">
+                        <i class="fa fa-edit"></i> Edit</button>
                     <button class="btn btn-outline-danger" (click)="delete(e.id)">
                         <i class="fa fa-times"></i> Delete</button>
                 </th>

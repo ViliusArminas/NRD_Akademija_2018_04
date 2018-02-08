@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeService } from '../../../services/employees/employees.service';
 import { Observable, BehaviorSubject } from 'rxjs/';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
     selector: 'app-employees-component',
@@ -25,7 +26,8 @@ export class EmployeesComponent implements OnInit {
 
     constructor(private router: Router,
         private modalService: NgbModal,
-        private employeeService: EmployeeService) { }
+        private employeeService: EmployeeService,
+        public toastr: ToastsManager) { }
 
     ngOnInit() {
         this.refreshList();
@@ -51,10 +53,15 @@ export class EmployeesComponent implements OnInit {
     delete(id) {
         this.employeeService.deleteItem(id).subscribe(res => {
             console.log(res);
+            this.toastr.success('Employee deleted', 'Success!');
             this.refreshList();
         },
             (err) => {
                 console.log(err);
             });
+    }
+
+    edit(id) {
+        this.router.navigate(['/employees/' + id]);
     }
 }

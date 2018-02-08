@@ -15,6 +15,8 @@ import { EmployeesDetailsComponent } from './components/employees/details/employ
 import { InventoryTypeFilterPipe } from './pipes/inventory-type-filter.pipe';
 import { InventoryFilterComponent } from './components/inventory/list/filter/inventory-filter.component';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 
 @NgModule({
@@ -29,10 +31,12 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpModule,
     FormsModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    ToastModule.forRoot()
   ],
   providers: [EmployeeService, InventoryService],
   bootstrap: [AppComponent]

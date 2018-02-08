@@ -18,11 +18,24 @@ export class EmployeeService {
             .catch((error: any) => Observable.throw(error));
     }
 
+    getItem(id): Observable<EmployeeModel> {
+        return this.http.get(this.url + '/' + id)
+            .map((res: Response) => res.json() as EmployeeModel)
+            .catch((error: any) => Observable.throw(error));
+    }
+
     saveItem(item): Observable<any> {
         return this.http.post(this.url, item)
             .map((res: Response) => res.json() as any[])
             .catch((error: any) => Observable.throw(error));
     }
+
+    updateItem(item): Observable<any> {
+        return this.http.put(this.url + '/' + item.id, item)
+            .map((res: Response) => res.json() as any[])
+            .catch((error: any) => Observable.throw(error));
+    }
+
 
     deleteItem(id): Observable<any[]> {
         return this.http.delete(this.url + '/' + id)

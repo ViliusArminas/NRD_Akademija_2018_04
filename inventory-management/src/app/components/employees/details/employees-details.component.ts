@@ -5,6 +5,7 @@ import { InventoryService } from '../../../services/inventory/inventory.service'
 import { InventoryModel } from '../../../models/inventory/inventory.model';
 import { Observable } from 'rxjs/';
 import { EmployeeService } from '../../../services/employees/employees.service';
+import { ToastsManager } from 'ng2-toastr';
 
 
 @Component({
@@ -21,12 +22,13 @@ export class EmployeesDetailsComponent implements OnInit {
     availableInventoryLoading = false;
     availableInventory: InventoryModel[];
 
-    employee: EmployeeModel;
+    employee: EmployeeModel = new EmployeeModel;
 
     constructor(private router: Router,
         private activateRoute: ActivatedRoute,
         private inventoryService: InventoryService,
-        private employeeService: EmployeeService) { }
+        private employeeService: EmployeeService,
+        public toastr: ToastsManager) { }
 
     ngOnInit() {
 
@@ -48,19 +50,39 @@ export class EmployeesDetailsComponent implements OnInit {
             this.loading = false;
         } else if (this.activeParameter > 0) {
             this.action = 'Edit';
+            this.employeeService.getItem(this.activeParameter).subscribe(data => {
+                this.employee = data;
+                this.loading = false;
+            },
+                (err) => {
+                    console.log(err);
+                });
         } else {
             this.router.navigate(['/employees']);
         }
     }
 
     save() {
-        this.employeeService.saveItem(this.employee).subscribe(res => {
-            console.log(res);
-            this.router.navigate(['/employees']);
-        },
-            (err) => {
-                console.log(err);
-            });
+        if (this.router.url.match('new')) {
+            if (!this.employee.inventory) {
+                this.employee.inventory = [];
+            }
+            this.employeeService.saveItem(this.employee).subscribe(res => {
+                this.toastr.success('Employee added', 'Success!');
+                this.router.navigate(['/employees']);
+            },
+                (err) => {
+                    console.log(err);
+                });
+        } else if (this.activeParameter > 0) {
+            this.employeeService.updateItem(this.employee).subscribe(res => {
+                this.toastr.success('Employee updated', 'Success!');
+                this.router.navigate(['/employees']);
+            },
+                (err) => {
+                    console.log(err);
+                });
+        }
     }
 
     addForEmployee(inventoryItem, inventoryIndex) {

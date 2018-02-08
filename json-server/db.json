@@ -41,9 +41,9 @@
       ]
     },
     {
-      "id": 3,
       "firstName": "Linas",
-      "inventory": []
+      "inventory": [],
+      "id": 3
     }
   ],
   "inventory": [
