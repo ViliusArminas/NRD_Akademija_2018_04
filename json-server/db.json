@@ -39,6 +39,13 @@
         {
           "id": 4,
           "name": "Dell computer"
+        },
+        {
+          "id": 3,
+          "name": "Logitech mouse",
+          "amount": 12,
+          "taken": 5,
+          "type": 3
         }
       ],
       "email": "kmv@nrd.lt",
