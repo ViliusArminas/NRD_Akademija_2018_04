@@ -28,8 +28,11 @@ export class EmployeesComponent implements OnInit {
         private employeeService: EmployeeService) { }
 
     ngOnInit() {
-        this.loading = true;
+        this.refreshList();
+    }
 
+    refreshList() {
+        this.loading = true;
         this.employeeService.getList().subscribe((data: EmployeeModel[]) => {
             this.employees$ = Observable.of(data);
             this.loading = false;
@@ -43,5 +46,15 @@ export class EmployeesComponent implements OnInit {
 
     openAddNew() {
         this.router.navigate(['/employees/new']);
+    }
+
+    delete(id) {
+        this.employeeService.deleteItem(id).subscribe(res => {
+            console.log(res);
+            this.refreshList();
+        },
+            (err) => {
+                console.log(err);
+            });
     }
 }

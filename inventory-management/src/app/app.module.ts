@@ -14,6 +14,7 @@ import { InventoryService } from './services/inventory/inventory.service';
 import { EmployeesDetailsComponent } from './components/employees/details/employees-details.component';
 import { InventoryTypeFilterPipe } from './pipes/inventory-type-filter.pipe';
 import { InventoryFilterComponent } from './components/inventory/list/filter/inventory-filter.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { InventoryFilterComponent } from './components/inventory/list/filter/inv
     BrowserModule,
     AppRoutingModule,
     HttpModule,
+    FormsModule,
     NgbModule.forRoot()
   ],
   providers: [EmployeeService, InventoryService],

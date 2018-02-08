@@ -1,4 +1,4 @@
 export class InventoryViewModel {
-    id: Number;
-    name: String;
+    id: number;
+    name: string;
 }
