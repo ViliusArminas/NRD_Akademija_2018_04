@@ -18,6 +18,8 @@
             <tr *ngFor="let e of employees$ | async; let ind = index;">
                 <th>{{ind+1}}</th>
                 <th>{{e.firstName}}</th>
+                <th>{{e.email}}</th>
+                <th>{{e.workplace}}</th>
                 <th>{{e.inventory.length}}</th>
                 <th>
                     <button [disabled]="e.inventory.length === 0" class="btn btn-outline-primary" (click)="open(modal, ind)">

@@ -20,7 +20,9 @@
           "id": 5,
           "name": "Logitech keyboard"
         }
-      ]
+      ],
+      "workplace": "Kaunas office",
+      "email": "mkv@nrd.lt"
     },
     {
       "id": 2,
@@ -38,12 +40,38 @@
           "id": 4,
           "name": "Dell computer"
         }
-      ]
+      ],
+      "email": "kmv@nrd.lt",
+      "workplace": "Kaunas office"
     },
     {
       "firstName": "Linas",
       "inventory": [],
-      "id": 3
+      "id": 3,
+      "workplace": "Vilnius office",
+      "email": "lkv@nrd.lt"
+    },
+    {
+      "workplace": "Kaunas office",
+      "email": "var@nrd.lt",
+      "firstName": "Vilius",
+      "inventory": [
+        {
+          "id": 3,
+          "name": "Logitech mouse",
+          "amount": 12,
+          "taken": 5,
+          "type": 3
+        },
+        {
+          "id": 4,
+          "name": "Dell computer",
+          "amount": 4,
+          "taken": 3,
+          "type": 4
+        }
+      ],
+      "id": 4
     }
   ],
   "inventory": [

@@ -2,11 +2,29 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form>
-            <div class="form-group">
-                <label for="name">Employee name</label>
-                <input type="text" [(ngModel)]="employee.firstName" name="name" class="form-control" id="name" placeholder="Enter name">
-                <small *ngIf="employee.firstName === '' || employee.firstName === undefined" class="form-text text-muted text-danger">Name is required</small>
+        <form (ngSubmit)="save(employeeForm)" #employeeForm="ngForm" novalidate>
+            <div class="form-group" [class.has-danger]="firstName.invalid && pressedSaveButton">
+                <label class="form-control-label" for="name">Employee name</label>
+                <input #firstName="ngModel" type="text" maxlength="10" [(ngModel)]="employee.firstName" required name="firstName" class="form-control"
+                    id="name" placeholder="Enter name">
+                <small *ngIf="firstName.invalid && pressedSaveButton" class="form-text text-muted text-danger">Name is required</small>
+            </div>
+
+            <div class="form-group" [class.has-danger]="email.invalid && pressedSaveButton">
+                <label class="form-control-label" for="name">Employee email</label>
+                <input #email="ngModel" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" [(ngModel)]="employee.email" required
+                    name="email" class="form-control" id="name" placeholder="Enter email">
+                <small *ngIf="email.invalid && pressedSaveButton" class="form-text text-muted text-danger">Correct email is required</small>
+            </div>
+            <div class="form-group" [class.has-danger]="workplaceSelectedError">
+                <label class="form-control-label" for="workplace">Workplace</label>
+                <select #workplace="ngModel" (ngModelChange)="checkIfWorkplaceSelected($event)" [(ngModel)]="employee.workplace" name="workplace"
+                    class="form-control">
+                    <option [value]="'default'">Select workplace</option>
+                    <option *ngFor="let c of cities" [value]="c">{{c}}</option>
+                </select>
+
+                <small *ngIf="workplaceSelectedError" class="form-text text-muted text-danger">Workplace is required</small>
             </div>
             <h3 class="text-center"> Inventory Assigned</h3>
             <table class="table">
@@ -29,7 +47,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button [disabled]="employee.firstName === '' || employee.firstName === undefined" (click)=save(); class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">Save</button>
             <button routerLink="/employees" class="btn btn-default">Back</button>
         </form>
     </div>

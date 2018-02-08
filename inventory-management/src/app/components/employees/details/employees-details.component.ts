@@ -6,6 +6,7 @@ import { InventoryModel } from '../../../models/inventory/inventory.model';
 import { Observable } from 'rxjs/';
 import { EmployeeService } from '../../../services/employees/employees.service';
 import { ToastsManager } from 'ng2-toastr';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -18,11 +19,16 @@ export class EmployeesDetailsComponent implements OnInit {
     activeParameter: any;
     action: any;
     loading = false;
+    pressedSaveButton = false;
 
     availableInventoryLoading = false;
     availableInventory: InventoryModel[];
 
+    workplaceSelectedError = false;
+
     employee: EmployeeModel = new EmployeeModel;
+
+    cities = ['Kaunas office', 'Vilnius office'];
 
     constructor(private router: Router,
         private activateRoute: ActivatedRoute,
@@ -46,11 +52,13 @@ export class EmployeesDetailsComponent implements OnInit {
 
         if (this.router.url.match('new')) {
             this.action = 'Add new';
-            this.employee = new EmployeeModel;
+            this.employee = new EmployeeModel();
+            this.employee.workplace = 'default';
             this.loading = false;
         } else if (this.activeParameter > 0) {
             this.action = 'Edit';
             this.employeeService.getItem(this.activeParameter).subscribe(data => {
+                console.log(data);
                 this.employee = data;
                 this.loading = false;
             },
@@ -62,26 +70,34 @@ export class EmployeesDetailsComponent implements OnInit {
         }
     }
 
-    save() {
-        if (this.router.url.match('new')) {
-            if (!this.employee.inventory) {
-                this.employee.inventory = [];
+    save(form: NgForm) {
+        if (form.valid) {
+            this.pressedSaveButton = false;
+            if (this.router.url.match('new')) {
+                if (!this.employee.inventory) {
+                    this.employee.inventory = [];
+                }
+                this.employeeService.saveItem(this.employee).subscribe(res => {
+                    this.toastr.success('Employee added', 'Success!');
+                    this.router.navigate(['/employees']);
+                },
+                    (err) => {
+                        console.log(err);
+                    });
+            } else if (this.activeParameter > 0) {
+                this.employeeService.updateItem(this.employee).subscribe(res => {
+                    this.toastr.success('Employee updated', 'Success!');
+                    this.router.navigate(['/employees']);
+                },
+                    (err) => {
+                        console.log(err);
+                    });
             }
-            this.employeeService.saveItem(this.employee).subscribe(res => {
-                this.toastr.success('Employee added', 'Success!');
-                this.router.navigate(['/employees']);
-            },
-                (err) => {
-                    console.log(err);
-                });
-        } else if (this.activeParameter > 0) {
-            this.employeeService.updateItem(this.employee).subscribe(res => {
-                this.toastr.success('Employee updated', 'Success!');
-                this.router.navigate(['/employees']);
-            },
-                (err) => {
-                    console.log(err);
-                });
+        } else {
+            this.checkIfWorkplaceSelected(form.value['workplace']);
+            this.pressedSaveButton = true;
+            this.toastr.error('Please fill all required fields first', 'Error!');
+
         }
     }
 
@@ -106,5 +122,14 @@ export class EmployeesDetailsComponent implements OnInit {
 
     countItemsLeft(amount, left) {
         return amount - left;
+    }
+
+    checkIfWorkplaceSelected(value) {
+        console.log(value);
+        if (value === 'default') {
+            this.workplaceSelectedError = true;
+        } else {
+            this.workplaceSelectedError = false;
+        }
     }
 }

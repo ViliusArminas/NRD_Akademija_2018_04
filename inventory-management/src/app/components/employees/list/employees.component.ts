@@ -21,6 +21,8 @@ export class EmployeesComponent implements OnInit {
     employeeHeaders: any[] = [
         { col: 'no', label: '#' },
         { col: 'firstName', label: 'First Name' },
+        { col: 'email', label: 'Email' },
+        { col: 'workplace', label: 'Workplace' },
         { col: 'inventorySize', label: 'Inventory Size' }
     ];
 
