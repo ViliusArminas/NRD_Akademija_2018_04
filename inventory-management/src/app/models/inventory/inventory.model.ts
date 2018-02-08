@@ -3,4 +3,5 @@ export class InventoryModel {
     name: String;
     amount: Number;
     taken: Number;
+    type: Number;
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { EmployeeModel } from '../../models/employees/employees.model';
+import { EmployeeModel } from '../../../models/employees/employees.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { EmployeeService } from '../../services/employees/employees.service';
+import { EmployeeService } from '../../../services/employees/employees.service';
 import { Observable, BehaviorSubject } from 'rxjs/';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-employees-component',
@@ -22,7 +23,8 @@ export class EmployeesComponent implements OnInit {
         { col: 'inventorySize', label: 'Inventory Size' }
     ];
 
-    constructor(private modalService: NgbModal,
+    constructor(private router: Router,
+        private modalService: NgbModal,
         private employeeService: EmployeeService) { }
 
     ngOnInit() {
@@ -37,5 +39,9 @@ export class EmployeesComponent implements OnInit {
     open(modal, employeeIndex) {
         this.modalService.open(modal);
         this.employeeInventory$ = this.employees$.map(arr => arr[employeeIndex].inventory);
+    }
+
+    openAddNew() {
+        this.router.navigate(['/employees/new']);
     }
 }
