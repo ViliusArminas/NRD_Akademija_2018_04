@@ -6,19 +6,32 @@
       "inventory": [
         {
           "id": 4,
-          "name": "Dell monitor"
-        },
-        {
-          "id": 3,
-          "name": "Logitech mouse"
-        },
-        {
-          "id": 4,
           "name": "Dell computer"
         },
         {
           "id": 5,
           "name": "Logitech keyboard"
+        },
+        {
+          "id": 4,
+          "name": "Dell computer",
+          "amount": 4,
+          "taken": 4,
+          "type": 4
+        },
+        {
+          "id": 4,
+          "name": "Dell computer",
+          "amount": 4,
+          "taken": 4,
+          "type": 4
+        },
+        {
+          "id": 4,
+          "name": "Dell computer",
+          "amount": 4,
+          "taken": 4,
+          "type": 4
         }
       ],
       "workplace": "Kaunas office",
